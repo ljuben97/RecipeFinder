@@ -18,8 +18,6 @@ class StoredRecipesViewModel: ObservableObject {
                                                               image: $0.imageLink,
                                                               likes: 0,
                                                               missingIngreditens: []) }
-        
-
     }
     
     init(recipesStoreManager: RecipesStoreManagerProtocol = RecipesStoreManager() ) {
