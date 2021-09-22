@@ -17,13 +17,7 @@ struct StoredRecipesView: View {
 
 extension StoredRecipesView {
     var storedRecipesView: some View {
-        VStack(alignment: .leading) {
-            ForEach(viewModel.recipes) { recipe in
-                Button(action: { viewModel.onRecipeItemTap(recipe: recipe) }) {
-                    RecipeItemView(viewModel: recipe)
-                }
-            }
-            Spacer()
-        }
+        // Za Shekio
+        EmptyView()
     }
 }
