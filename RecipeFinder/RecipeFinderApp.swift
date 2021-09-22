@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@main
 struct RecipeFinderApp: App {
     var body: some Scene {
         WindowGroup {
