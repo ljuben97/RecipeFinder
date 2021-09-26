@@ -16,8 +16,28 @@ struct StoredRecipesView: View {
 }
 
 extension StoredRecipesView {
-    var storedRecipesView: some View {
-        // Za Shekio
+    private var storedRecipesView: some View {
+        Group {
+            switch viewModel.state {
+            case .success:
+                successView
+            case .empty:
+                emptyView
+            }
+        }
+    }
+    
+    private var successView: some View {
+        VStack(alignment: .leading) {
+            ForEach(viewModel.storedRecipes) { recipe in
+                Button(action: { viewModel.onRecipeItemTap(recipe: recipe) }) {
+                    RecipeItemView(viewModel: recipe)
+                }
+            }
+        }
+    }
+    
+    private var emptyView: some View {
         EmptyView()
     }
 }

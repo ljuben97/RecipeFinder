@@ -74,6 +74,7 @@ extension SearchRecipesView {
             Button(action: viewModel.searchRecipes) {
                 Text("Search")
             }
+            .disabled(viewModel.ingredients.isEmpty)
         }
         .padding(.horizontal, 20)
         .padding(.top, 10)
@@ -90,7 +91,11 @@ extension SearchRecipesView {
     }
     
     private var errorView: some View {
-        EmptyView()
+        FullScreenErrorView(title: "Error",
+                            description: viewModel.errorMessage,
+                            buttonText: "Retry",
+                            errorCode: 404,
+                            onButtonTap: viewModel.retry)
     }
     
     private var emptyView: some View {
@@ -98,7 +103,9 @@ extension SearchRecipesView {
     }
     
     private var initialView: some View {
-        EmptyView()
+        VStack(alignment: .center) {
+            
+        }
     }
     
     private var loadingView: some View {

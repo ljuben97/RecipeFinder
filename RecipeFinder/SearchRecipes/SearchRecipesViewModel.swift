@@ -12,6 +12,7 @@ class SearchRecipesViewModel: ObservableObject {
     @Published var state: SectionState = .initial
     @Published var ingredients: [Ingredient] = []
     @Published var recipes: [RecipeItemViewModel] = []
+    @Published var errorMessage: String = ""
     var ingredientText: String = ""
     
     let onRecipeTapSubject = PassthroughSubject<Int, Never>()
@@ -44,6 +45,10 @@ class SearchRecipesViewModel: ObservableObject {
         onFavoriteRecipesButtonTapSubject.send()
     }
     
+    func retry() {
+        fetchRecipesByIngredients()
+    }
+    
     private func fetchRecipesByIngredients() {
         guard ingredients.notEmpty else { return }
         
@@ -65,20 +70,14 @@ class SearchRecipesViewModel: ObservableObject {
     }
     
     private func handleError(error: ErrorResponse) {
-        print(error.localizedDescription)
+        errorMessage = error.localizedDescription
         state = .error
     }
     
     private func handleSuccess(result: [RecipeByIngredientsAPIResponse]) {
         recipes = result.map { RecipeItemViewModel(id: $0.id,
                                                    title: $0.title,
-                                                   image: $0.image,
-                                                   likes: $0.likes,
-                                                   missingIngreditens: $0
-                                                    .missedIngredients
-                                                    .map { MissingIngredientsViewModel(id: $0.id,
-                                                                                       name: $0.original,
-                                                                                       image: $0.image)})}
+                                                   image: $0.image)}
         ingredients.empty()
         state = .success
     }

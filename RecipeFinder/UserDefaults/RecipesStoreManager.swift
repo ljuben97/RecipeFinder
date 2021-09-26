@@ -13,6 +13,7 @@ protocol RecipesStoreManagerProtocol {
     func addRecipe(recipe: RecipeDetailsViewModel)
     func containsRecipe(id: Int) -> Bool
     func removeRecipe(id: Int)
+    func findById(id: Int) -> StoredRecipe?
 }
 
 class RecipesStoreManager: RecipesStoreManagerProtocol {
@@ -54,5 +55,11 @@ class RecipesStoreManager: RecipesStoreManagerProtocol {
         
         storedRecipes.removeAll { $0 == recipe }
         recipesStore.recipes = storedRecipes
+    }
+    
+    func findById(id: Int) -> StoredRecipe? {
+        let storedRecipes = recipesStore.recipes
+        
+        return storedRecipes.first { $0.id == id }
     }
 }

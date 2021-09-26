@@ -13,6 +13,16 @@ class StoredRecipesViewModel: ObservableObject {
     let recipesStoreManager: RecipesStoreManagerProtocol
     let onRecipeItemTapSubject: PassthroughSubject<Int, Never> = PassthroughSubject<Int, Never>()
     
+    var storedRecipes: [RecipeItemViewModel] {
+        recipesStoreManager.recipes.map { RecipeItemViewModel(id: $0.id,
+                                                              title: $0.name,
+                                                              image: $0.imageLink) }
+    }
+    
+    var state: StoredRecipesState {
+        storedRecipes.isEmpty ? .empty : .success
+    }
+    
     init(recipesStoreManager: RecipesStoreManagerProtocol = RecipesStoreManager() ) {
         self.recipesStoreManager = recipesStoreManager
     }

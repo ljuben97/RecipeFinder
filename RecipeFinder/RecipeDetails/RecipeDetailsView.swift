@@ -35,7 +35,11 @@ extension RecipeDetailsView {
     }
     
     private var errorView: some View {
-        EmptyView()
+        FullScreenErrorView(title: "Error",
+                            description: viewModel.errorMessage,
+                            buttonText: "Rertry",
+                            errorCode: 404,
+                            onButtonTap: viewModel.retryFunction)
     }
     
     private var successView: some View {
@@ -49,19 +53,23 @@ extension RecipeDetailsView {
                             .font(.largeTitle)
                             .lineLimit(2)
                         Spacer()
-                        heartButtonView
+                        if !viewModel.isOffline {
+                            heartButtonView
+                        }
                     }
-                    Text(viewModel.ingredientsText)
+                    Text(viewModel.ingredients)
                         .font(.body)
                         .foregroundColor(.black)
                         .lineLimit(100)
                     instructionsView
-                    CheckmarkOrXView(isTrue: viewModel.cheap, text: "Cheap")
-                    CheckmarkOrXView(isTrue: viewModel.vegetarian, text: "Vegeterian")
-                    CheckmarkOrXView(isTrue: viewModel.vegan, text: "Vegan")
-                    CheckmarkOrXView(isTrue: viewModel.dairyFree, text: "Dairy Free")
-                    CheckmarkOrXView(isTrue: viewModel.glutenFree, text: "Glutten Free")
-                    CheckmarkOrXView(isTrue: viewModel.veryPopular, text: "Very Popular")
+                    if !viewModel.isOffline {
+                        CheckmarkOrXView(isTrue: viewModel.cheap, text: "Cheap")
+                        CheckmarkOrXView(isTrue: viewModel.vegetarian, text: "Vegeterian")
+                        CheckmarkOrXView(isTrue: viewModel.vegan, text: "Vegan")
+                        CheckmarkOrXView(isTrue: viewModel.dairyFree, text: "Dairy Free")
+                        CheckmarkOrXView(isTrue: viewModel.glutenFree, text: "Glutten Free")
+                        CheckmarkOrXView(isTrue: viewModel.veryPopular, text: "Very Popular")
+                    }
                 }
                 .padding(.horizontal, 8)
             }

@@ -28,8 +28,9 @@ class RecipeDetailsViewModel: ObservableObject {
     @Published var veryPopular: Bool = false
     @Published var recipeSteps: [RecipeStepViewModel] = []
     @Published var instructions: String = ""
-    @Published var ingredients: [ExtendedIngredientViewModel] = []
+    @Published var ingredients: String = ""
     @Published var isAddedToFavorites: Bool
+    @Published var errorMessage: String = ""
     
     let type: RecipeDetailsType
     let service: RecipeDetailsServiceProtocol?
@@ -41,12 +42,16 @@ class RecipeDetailsViewModel: ObservableObject {
         recipeSteps.sorted { $0.number < $1.number }
     }
     
-    var ingredientsText: String {
-        ingredients.map { $0.nameAndAmountText }.joined(separator: ", ")
-    }
-    
     var hasSteps: Bool {
         recipeSteps.notEmpty
+    }
+    
+    var isOffline: Bool {
+        type == .offline
+    }
+    
+    var retryFunction: () -> Void {
+        isOffline ? retryMap : retryFetch
     }
     
     init(type: RecipeDetailsType,
@@ -61,12 +66,7 @@ class RecipeDetailsViewModel: ObservableObject {
     }
     
     func start() {
-        switch type {
-        case .fetch:
-            fetchDetails()
-        case .offline:
-            mapOffline()
-        }
+        isOffline ? mapOffline() : fetchDetails()
     }
     
     func onHeartButtonTap() {
@@ -76,6 +76,14 @@ class RecipeDetailsViewModel: ObservableObject {
             recipesStoreManager.addRecipe(recipe: self)
         }
         isAddedToFavorites = !isAddedToFavorites
+    }
+    
+    private func retryFetch() {
+        fetchDetails()
+    }
+    
+    private func retryMap() {
+        mapOffline()
     }
     
     private func fetchDetails() {
@@ -96,9 +104,18 @@ class RecipeDetailsViewModel: ObservableObject {
             .store(in: &disposables)
     }
     
-    // Za Shekio
     private func mapOffline() {
+        guard let storedRecipe = recipesStoreManager.findById(id: id) else {
+            errorMessage = "The recipe was not found in your stored recipes. Please try again."
+            state = .error
+            return
+        }
         
+        title = storedRecipe.name
+        instructions = storedRecipe.instructions
+        ingredients = storedRecipe.ingredients.map { $0 }.joined(separator: ", ")
+        imageLink = storedRecipe.imageLink
+        state = .success
     }
 
     private func handleError(error: ErrorResponse) {
@@ -119,10 +136,11 @@ class RecipeDetailsViewModel: ObservableObject {
         veryHealth = recipe.veryHealthy
         veryPopular = recipe.veryPopular
         recipeSteps = recipe.analyzedInstructions.first?.steps.map { RecipeStepViewModel(number: $0.number, step: $0.step) } ?? []
-        ingredients = recipe.extendedIngredients.map { ExtendedIngredientViewModel(name: $0.name,
+        let ingredients = recipe.extendedIngredients.map { ExtendedIngredientViewModel(name: $0.name,
                                                                                    image: $0.image,
                                                                                    amount: $0.measures.metric.amount,
                                                                                    units: $0.measures.metric.unitShort) }
+        self.ingredients = ingredients.map { $0.nameAndAmountText }.joined(separator: ", ")
         instructions = recipe.instructions ?? ""
         state = .success
     }

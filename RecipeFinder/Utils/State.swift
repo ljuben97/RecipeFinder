@@ -20,3 +20,8 @@ enum DetailsState {
     case loading
     case error
 }
+
+enum StoredRecipesState {
+    case success
+    case empty
+}
