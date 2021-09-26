@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 class RecipeDetailsViewModel: ObservableObject {
     enum RecipeDetailsType {
@@ -31,12 +32,14 @@ class RecipeDetailsViewModel: ObservableObject {
     @Published var ingredients: String = ""
     @Published var isAddedToFavorites: Bool
     @Published var errorMessage: String = ""
-    
+        
     let type: RecipeDetailsType
     let service: RecipeDetailsServiceProtocol?
     let recipesStoreManager: RecipesStoreManagerProtocol
     let id: Int
     var disposables = Set<AnyCancellable>()
+    
+    let removeFromStoredRecipesSubject: PassthroughSubject<Int, Never>
     
     var sortedSteps: [RecipeStepViewModel] {
         recipeSteps.sorted { $0.number < $1.number }
@@ -57,11 +60,13 @@ class RecipeDetailsViewModel: ObservableObject {
     init(type: RecipeDetailsType,
          id: Int,
          service: RecipeDetailsServiceProtocol? = nil,
-         recipesStoreManager: RecipesStoreManagerProtocol = RecipesStoreManager.shared) {
+         recipesStoreManager: RecipesStoreManagerProtocol = RecipesStoreManager.shared,
+         removeFromStoredRecipesSubject: PassthroughSubject<Int, Never> = PassthroughSubject<Int, Never>()) {
         self.type = type
         self.id = id
         self.service = service
         self.recipesStoreManager = recipesStoreManager
+        self.removeFromStoredRecipesSubject = removeFromStoredRecipesSubject
         isAddedToFavorites = recipesStoreManager.containsRecipe(id: id)
     }
     
@@ -76,6 +81,11 @@ class RecipeDetailsViewModel: ObservableObject {
             recipesStoreManager.addRecipe(recipe: self)
         }
         isAddedToFavorites = !isAddedToFavorites
+    }
+    
+    func onRemoveFromStoreButtonTap() {
+        recipesStoreManager.removeRecipe(id: id)
+        removeFromStoredRecipesSubject.send(id)
     }
     
     private func retryFetch() {
@@ -113,7 +123,7 @@ class RecipeDetailsViewModel: ObservableObject {
         
         title = storedRecipe.name
         instructions = storedRecipe.instructions
-        ingredients = storedRecipe.ingredients.map { $0 }.joined(separator: ", ")
+        ingredients = storedRecipe.ingredients
         imageLink = storedRecipe.imageLink
         state = .success
     }
@@ -124,7 +134,7 @@ class RecipeDetailsViewModel: ObservableObject {
     }
     
     private func handleSuccess(recipe: RecipeDetailsResponse) {
-        imageLink = recipe.image
+        imageLink = recipe.image ?? ""
         title = recipe.title
         readyInMinutes = recipe.readyInMinutes
         healthScore = recipe.healthScore

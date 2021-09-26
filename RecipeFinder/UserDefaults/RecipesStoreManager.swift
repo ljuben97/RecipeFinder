@@ -35,7 +35,7 @@ class RecipesStoreManager: RecipesStoreManagerProtocol {
         let storedRecipe = StoredRecipe(id: recipe.id,
                                         name: recipe.title,
                                         imageLink: recipe.imageLink,
-                                        ingredients: recipe.ingredients.map { $0.nameAndAmountText },
+                                        ingredients: recipe.ingredients,
                                         instructions: recipe.sortedSteps.map { $0.step }.joined(separator: ". "))
         var storedRecipes = recipesStore.recipes
         storedRecipes.append(storedRecipe)

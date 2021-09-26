@@ -20,6 +20,9 @@ extension RecipeItemView {
         HStack {
             CircularImageIcon(withURL: viewModel.image)
             Text(viewModel.title)
+                .font(.title2)
+                .foregroundColor(.black)
         }
+        .padding(8)
     }
 }

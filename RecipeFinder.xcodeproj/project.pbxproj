@@ -33,6 +33,8 @@
 		56809D3C26FB9A9100B5B654 /* StoredRecipesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56809D3B26FB9A9100B5B654 /* StoredRecipesViewModel.swift */; };
 		56809D3E26FB9ABD00B5B654 /* StoredRecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56809D3D26FB9ABD00B5B654 /* StoredRecipesView.swift */; };
 		56809D4026FB9E1000B5B654 /* StoredRecipesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56809D3F26FB9E1000B5B654 /* StoredRecipesCoordinator.swift */; };
+		569482FE27009AFF0078EEC1 /* FullScreenEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569482FD27009AFF0078EEC1 /* FullScreenEmptyView.swift */; };
+		569483002700AFDE0078EEC1 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569482FF2700AFDE0078EEC1 /* UIApplication.swift */; };
 		56B6240726DB60F1004D9DBF /* AnalyzedInstructionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B6240626DB60F1004D9DBF /* AnalyzedInstructionResponse.swift */; };
 		56B6240926DB619E004D9DBF /* StepResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B6240826DB619E004D9DBF /* StepResponse.swift */; };
 		56B6240B26DB6283004D9DBF /* StepIngredientResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B6240A26DB6283004D9DBF /* StepIngredientResponse.swift */; };
@@ -120,6 +122,8 @@
 		56809D3B26FB9A9100B5B654 /* StoredRecipesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredRecipesViewModel.swift; sourceTree = "<group>"; };
 		56809D3D26FB9ABD00B5B654 /* StoredRecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredRecipesView.swift; sourceTree = "<group>"; };
 		56809D3F26FB9E1000B5B654 /* StoredRecipesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredRecipesCoordinator.swift; sourceTree = "<group>"; };
+		569482FD27009AFF0078EEC1 /* FullScreenEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenEmptyView.swift; sourceTree = "<group>"; };
+		569482FF2700AFDE0078EEC1 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		56B6240626DB60F1004D9DBF /* AnalyzedInstructionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyzedInstructionResponse.swift; sourceTree = "<group>"; };
 		56B6240826DB619E004D9DBF /* StepResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepResponse.swift; sourceTree = "<group>"; };
 		56B6240A26DB6283004D9DBF /* StepIngredientResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepIngredientResponse.swift; sourceTree = "<group>"; };
@@ -320,6 +324,7 @@
 			children = (
 				5679810726A43D5E006A5282 /* State.swift */,
 				5661025D2700897A004A23C2 /* FullScreenErrorView.swift */,
+				569482FD27009AFF0078EEC1 /* FullScreenEmptyView.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -330,6 +335,7 @@
 				5679810C26A43E83006A5282 /* String.swift */,
 				5679810E26A43EC2006A5282 /* Array.swift */,
 				56E2661426DA6E56000D0556 /* View.swift */,
+				569482FF2700AFDE0078EEC1 /* UIApplication.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -659,6 +665,7 @@
 				56BBBDD226A2F58C00079AE9 /* ErrorResponse.swift in Sources */,
 				56809D4026FB9E1000B5B654 /* StoredRecipesCoordinator.swift in Sources */,
 				56C45A7D26D968C90095E438 /* MeasureResponse.swift in Sources */,
+				569483002700AFDE0078EEC1 /* UIApplication.swift in Sources */,
 				56EAE8CF26AB5B3C00AFC674 /* IgredientsAPIResponse.swift in Sources */,
 				56C45A8026D969D60095E438 /* ExtendedIngredientMeasuresResponse.swift in Sources */,
 				56B6240926DB619E004D9DBF /* StepResponse.swift in Sources */,
@@ -673,6 +680,7 @@
 				56C45A8826D96E7F0095E438 /* RecipeDetailsRequest.swift in Sources */,
 				56B6241326DBA52C004D9DBF /* RecipeStepViewModel.swift in Sources */,
 				56BBBDD026A2F53100079AE9 /* Parsing.swift in Sources */,
+				569482FE27009AFF0078EEC1 /* FullScreenEmptyView.swift in Sources */,
 				5679810026A4189D006A5282 /* BaseRequestProtocol.swift in Sources */,
 				5679810826A43D5E006A5282 /* State.swift in Sources */,
 				5679811926A487E0006A5282 /* MissingIngredientsViewModel.swift in Sources */,

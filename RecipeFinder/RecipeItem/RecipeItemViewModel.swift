@@ -13,7 +13,7 @@ class RecipeItemViewModel: ObservableObject, Identifiable {
     let title: String
     let image: String
     
-    init(id: Int, title: String, image: String]) {
+    init(id: Int, title: String, image: String) {
         self.recipeId = id
         self.title = title
         self.image = image

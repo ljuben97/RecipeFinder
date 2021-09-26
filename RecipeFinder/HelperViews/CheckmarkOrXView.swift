@@ -18,7 +18,7 @@ struct CheckmarkOrXView: View {
                 Image(systemName: "checkmark.circle")
                     .foregroundColor(.green)
             } else {
-                Image(systemName: "x.circle")
+                Image(systemName: "xmark.circle")
                     .foregroundColor(.red)
             }
         }

@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 class SearchRecipesViewModel: ObservableObject {
     @Published var state: SectionState = .initial
@@ -26,6 +27,7 @@ class SearchRecipesViewModel: ObservableObject {
     }
     
     func searchRecipes() {
+        UIApplication.shared.endEditing()
         state = .loading
         fetchRecipesByIngredients()
     }
@@ -35,6 +37,10 @@ class SearchRecipesViewModel: ObservableObject {
         
         ingredients.append(Ingredient(name: ingredientText))
         ingredientText.empty()
+    }
+    
+    func removeIngredient(ingredient: Ingredient) {
+        ingredients.removeAll { $0 == ingredient }
     }
     
     func onRecipeItemTap(recipe: RecipeItemViewModel) {
@@ -79,6 +85,6 @@ class SearchRecipesViewModel: ObservableObject {
                                                    title: $0.title,
                                                    image: $0.image)}
         ingredients.empty()
-        state = .success
+        state = recipes.notEmpty ? .success : .empty
     }
 }

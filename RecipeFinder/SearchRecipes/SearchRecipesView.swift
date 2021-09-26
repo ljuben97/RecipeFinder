@@ -20,7 +20,9 @@ extension SearchRecipesView {
         ZStack(alignment: .bottom) {
             VStack(spacing: 30) {
                 enterIngredientsView
-                ingredientsView
+                if viewModel.ingredients.notEmpty {
+                    ingredientsView
+                }
                 Group {
                     switch viewModel.state {
                     case .error:
@@ -48,19 +50,32 @@ extension SearchRecipesView {
                 Image(systemName: "heart.fill")
                     .foregroundColor(.red)
                 Text("Favorites")
+                    .font(.title2)
                     .foregroundColor(.black)
                 Spacer()
             }
-            .frame(width: UIScreen.main.bounds.size.width)
+            .frame(width: 150)
+            .padding(8)
             .foregroundColor(.gray)
-            .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.black), alignment: .top)
+            .background(RoundedRectangle(cornerRadius: 25).fill(Color.yellow))
+            .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.black, lineWidth: 1))
         }
     }
     
     private var ingredientsView: some View {
         HStack(spacing: 5) {
             ForEach(viewModel.ingredients) { ingredient in
-                Text(ingredient.name)
+                HStack(alignment: .center) {
+                    Text(ingredient.name)
+                        .font(.body)
+                        .foregroundColor(.black)
+                    Button(action: { viewModel.removeIngredient(ingredient: ingredient) }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.red)
+                    }
+                }
+                .padding(8)
+                .background(RoundedRectangle(cornerRadius: 25).fill(Color.yellow))
             }
         }
     }
@@ -69,10 +84,20 @@ extension SearchRecipesView {
         HStack {
             TextField("Enter an ingredient", text: $viewModel.ingredientText)
             Button(action: viewModel.addIngredient) {
-                Text("Add ingredient")
+                Text("Add Ingredient")
+                    .font(.body)
+                    .padding(8)
+                    .foregroundColor(.black)
+                    .background(RoundedRectangle(cornerRadius: 25).fill(Color.green))
+                    .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.black, lineWidth: 1))
             }
             Button(action: viewModel.searchRecipes) {
                 Text("Search")
+                    .font(.body)
+                    .padding(8)
+                    .foregroundColor(.black)
+                    .background(RoundedRectangle(cornerRadius: 25).fill(Color.green))
+                    .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.black, lineWidth: 1))
             }
             .disabled(viewModel.ingredients.isEmpty)
         }
@@ -81,10 +106,12 @@ extension SearchRecipesView {
     }
     
     private var successView: some View {
-        VStack(alignment: .leading) {
-            ForEach(viewModel.recipes) { recipe in
-                Button(action: { viewModel.onRecipeItemTap(recipe: recipe) }) {
-                    RecipeItemView(viewModel: recipe)
+        ScrollView {
+            VStack(alignment: .leading) {
+                ForEach(viewModel.recipes) { recipe in
+                    Button(action: { viewModel.onRecipeItemTap(recipe: recipe) }) {
+                        RecipeItemView(viewModel: recipe)
+                    }
                 }
             }
         }
@@ -99,19 +126,34 @@ extension SearchRecipesView {
     }
     
     private var emptyView: some View {
-        EmptyView()
+        FullScreenEmptyView(title: "No Recipes Found!", description: "We didn't find any recipes with those ingredients. Please try again with different ingredients.")
     }
     
     private var initialView: some View {
-        VStack(alignment: .center) {
-            
+        VStack(alignment: .center, spacing: 16) {
+            Spacer()
+            Image(systemName: "sun.max.fill")
+                .resizable()
+                .frame(width: 120, height: 120)
+                .foregroundColor(.yellow)
+            Text("Welcome To The Recipe Finder!")
+                .foregroundColor(.black)
+                .font(.title)
+                .multilineTextAlignment(.center)
+            Text("Please start by searching for some recipes bu adding ingredients. Or you can see all your favorite recipes by clicking the favorites button.")
+                .foregroundColor(.black)
+                .font(.body)
+                .multilineTextAlignment(.center)
+            Spacer()
         }
+        .padding(24)
     }
     
     private var loadingView: some View {
-        VStack {
+        VStack(alignment: .center) {
             Spacer()
             ProgressView()
+                .frame(width: 120, height: 120)
             Spacer()
         }
     }

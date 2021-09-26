@@ -28,16 +28,20 @@ extension StoredRecipesView {
     }
     
     private var successView: some View {
-        VStack(alignment: .leading) {
-            ForEach(viewModel.storedRecipes) { recipe in
-                Button(action: { viewModel.onRecipeItemTap(recipe: recipe) }) {
-                    RecipeItemView(viewModel: recipe)
+        ScrollView {
+            VStack(alignment: .leading) {
+                ForEach(viewModel.storedRecipes) { recipe in
+                    Button(action: { viewModel.onRecipeItemTap(recipe: recipe) }) {
+                        RecipeItemView(viewModel: recipe)
+                    }
                 }
+                Spacer()
             }
         }
     }
     
     private var emptyView: some View {
-        EmptyView()
+        FullScreenEmptyView(title: "No Recipes Found.",
+                            description: "It appears you do not have any stored recipes. Please add some and then come back!")
     }
 }

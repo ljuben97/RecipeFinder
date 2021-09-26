@@ -10,7 +10,7 @@ import Foundation
 struct RecipeDetailsResponse: Decodable {
     let id: Int
     let title: String
-    let image: String
+    let image: String?
     let imageType: String
     let servings: Int
     let readyInMinutes: Int

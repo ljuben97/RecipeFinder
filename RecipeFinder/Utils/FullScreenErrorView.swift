@@ -18,29 +18,34 @@ struct FullScreenErrorView: View {
         VStack(alignment: .center, spacing: 16) {
             Spacer()
             Image(systemName: "exclamationmark.circle")
+                .resizable()
                 .frame(width: 120, height: 120)
-                .foregroundColor(.black)
+                .foregroundColor(.gray)
             Text(title)
                 .foregroundColor(.black)
                 .font(.title3)
+                .multilineTextAlignment(.center)
             Text("\(errorCode)")
                 .foregroundColor(.black)
                 .font(.body)
             Text(description)
                 .foregroundColor(.black)
                 .font(.body)
+                .multilineTextAlignment(.center)
             Button(action: onButtonTap) {
-                Text(title)
-                    .frame(minWidth: 0, maxWidth: .infinity)
+                Text(buttonText)
+                    .frame(minWidth: 0, maxWidth: 120)
                     .font(.body)
                     .padding()
                     .foregroundColor(.black)
                     .overlay(
                         RoundedRectangle(cornerRadius: 25)
                             .stroke(Color.gray, lineWidth: 2)
+                            .foregroundColor(.gray)
                     )
             }
             Spacer()
         }
+        .padding(24)
     }
 }

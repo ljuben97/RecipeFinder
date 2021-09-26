@@ -31,7 +31,8 @@ extension RecipeDetailsView {
     }
     
     private var loadingView: some View {
-        EmptyView()
+        ProgressView()
+            .frame(width: 120, height: 120)
     }
     
     private var errorView: some View {
@@ -43,35 +44,50 @@ extension RecipeDetailsView {
     }
     
     private var successView: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                WholeScreenImage(withURL: viewModel.imageLink)
-                VStack(alignment: .leading, spacing: 20) {
-                    HStack(alignment: .center) {
-                        Text(viewModel.title)
-                            .bold()
-                            .font(.largeTitle)
-                            .lineLimit(2)
-                        Spacer()
+        ZStack(alignment: .bottom) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    WholeScreenImage(withURL: viewModel.imageLink)
+                    VStack(alignment: .leading, spacing: 20) {
+                        HStack(alignment: .center) {
+                            Text(viewModel.title)
+                                .bold()
+                                .font(.largeTitle)
+                                .lineLimit(2)
+                            Spacer()
+                            if !viewModel.isOffline {
+                                heartButtonView
+                            }
+                        }
+                        Text(viewModel.ingredients)
+                            .font(.body)
+                            .foregroundColor(.black)
+                            .lineLimit(100)
+                        instructionsView
                         if !viewModel.isOffline {
-                            heartButtonView
+                            CheckmarkOrXView(isTrue: viewModel.cheap, text: "Cheap")
+                            CheckmarkOrXView(isTrue: viewModel.vegetarian, text: "Vegeterian")
+                            CheckmarkOrXView(isTrue: viewModel.vegan, text: "Vegan")
+                            CheckmarkOrXView(isTrue: viewModel.dairyFree, text: "Dairy Free")
+                            CheckmarkOrXView(isTrue: viewModel.glutenFree, text: "Glutten Free")
+                            CheckmarkOrXView(isTrue: viewModel.veryPopular, text: "Very Popular")
                         }
                     }
-                    Text(viewModel.ingredients)
-                        .font(.body)
-                        .foregroundColor(.black)
-                        .lineLimit(100)
-                    instructionsView
-                    if !viewModel.isOffline {
-                        CheckmarkOrXView(isTrue: viewModel.cheap, text: "Cheap")
-                        CheckmarkOrXView(isTrue: viewModel.vegetarian, text: "Vegeterian")
-                        CheckmarkOrXView(isTrue: viewModel.vegan, text: "Vegan")
-                        CheckmarkOrXView(isTrue: viewModel.dairyFree, text: "Dairy Free")
-                        CheckmarkOrXView(isTrue: viewModel.glutenFree, text: "Glutten Free")
-                        CheckmarkOrXView(isTrue: viewModel.veryPopular, text: "Very Popular")
-                    }
+                    .padding(.horizontal, 8)
                 }
-                .padding(.horizontal, 8)
+            }
+            if viewModel.isOffline {
+                Button(action: viewModel.onRemoveFromStoreButtonTap) {
+                    Text("Remove From Favorites")
+                        .font(.title2)
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(width: 150)
+                .padding(8)
+                .foregroundColor(.gray)
+                .background(RoundedRectangle(cornerRadius: 25).fill(Color.yellow))
+                .overlay(RoundedRectangle(cornerRadius: 25).stroke(Color.black, lineWidth: 1))
             }
         }
     }
