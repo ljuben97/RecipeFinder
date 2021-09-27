@@ -12,6 +12,7 @@ struct StoredRecipesView: View {
     
     var body: some View {
         storedRecipesView
+            .navigationBarTitle("My Favorites")
     }
 }
 
