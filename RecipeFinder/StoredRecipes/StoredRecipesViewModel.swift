@@ -18,7 +18,7 @@ class StoredRecipesViewModel: ObservableObject {
         storedRecipes.isEmpty ? .empty : .success
     }
     
-    init(recipesStoreManager: RecipesStoreManagerProtocol = RecipesStoreManager() ) {
+    init(recipesStoreManager: RecipesStoreManagerProtocol = RecipesStoreManager.shared ) {
         self.recipesStoreManager = recipesStoreManager
         storedRecipes = self.recipesStoreManager.recipes.map { RecipeItemViewModel(id: $0.id,
                                                                               title: $0.name,
